@@ -6,7 +6,7 @@ const fetch = require('node-fetch')
 
 
 module.exports = {
-  name: 'land.io',
+  name: 'land-io',
   category: "Voice activities",
   aliases: [],
   cooldown: 5,
@@ -51,7 +51,8 @@ module.exports = {
                 const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Land.io")
-                .setURL(`https://discord.com/invite/${invite.code}`)
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
                 let row = new MessageActionRow()
                 .addComponents(button)

@@ -51,7 +51,8 @@ module.exports = {
                 const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Poker Night")
-                .setURL(`https://discord.com/invite/${invite.code}`)
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
                 let row = new MessageActionRow()
                 .addComponents(button)
