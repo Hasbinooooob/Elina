@@ -34,14 +34,14 @@ module.exports = {
         },
         {
           name: "Blazing 8s",
-          value: "ocho",
+          value: "blaze",
         },
         {
-          name: "Checkers",
+          name: "Checkers In The Park",
           value: "checkers",
         },
         {
-          name: "Chess",
+          name: "Chess In The Park",
           value: "chess",
         },
         {
@@ -49,7 +49,7 @@ module.exports = {
           value: "fishing",
         },
         {
-          name: "Land.io",
+          name: "Land-io",
           value: "land",
         },
         {
@@ -129,7 +129,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Betrayal")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
               let row = new MessageActionRow().addComponents(button);
 
@@ -184,7 +185,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Checkers")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
               let row = new MessageActionRow().addComponents(button);
 
@@ -239,7 +241,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Chess")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
               let row = new MessageActionRow().addComponents(button);
 
@@ -295,7 +298,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Fishington.io")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setEmoji("939931570645655634")
+                .setURL(`https://discord.gg/${invite.code}`);
 
               let row = new MessageActionRow().addComponents(button);
 
@@ -350,7 +354,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Land.io")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
               let row = new MessageActionRow().addComponents(button);
 
@@ -405,7 +410,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Letter League")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
               let row = new MessageActionRow().addComponents(button);
 
@@ -428,7 +434,7 @@ module.exports = {
 
           break;
 
-        case "ocho":
+        case "blaze":
           fetch(`https://discord.com/api/v8/channels/${channel.id}/invites`, {
             method: "POST",
             body: JSON.stringify({
@@ -460,7 +466,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Blazing 8s")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
               let row = new MessageActionRow().addComponents(button);
 
@@ -515,7 +522,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Poker Night")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
               let row = new MessageActionRow().addComponents(button);
 
@@ -570,7 +578,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Putt Party")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
               let row = new MessageActionRow().addComponents(button);
 
@@ -625,7 +634,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Sketch Heads")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
               let row = new MessageActionRow().addComponents(button);
 
@@ -682,7 +692,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Spellcast")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
               let row = new MessageActionRow().addComponents(button);
 
@@ -737,7 +748,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Word Snacks")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
               let row = new MessageActionRow().addComponents(button);
 
@@ -792,7 +804,8 @@ module.exports = {
               const button = new MessageButton()
                 .setStyle("LINK")
                 .setLabel("Watch Together")
-                .setURL(`https://discord.com/invite/${invite.code}`);
+                .setURL(`https://discord.gg/${invite.code}`)
+                .setEmoji("939931570645655634")
 
               let row = new MessageActionRow().addComponents(button);
 
