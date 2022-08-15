@@ -1,11 +1,10 @@
 const { Client, Message, MessageEmbed, Collection } = require('discord.js');
-
-const {Fight} = require("weky")
-
+const ee = require("../../config/embed.json");
+const { Fight } = require("weky")
 module.exports = {
   name: "fight",
   aliases: ["Fight"],
-  category: "Fun",
+  category: "Mini Games",
   description: "Fight user",
   usage: "[Command]",
   /** 
@@ -14,16 +13,13 @@ module.exports = {
      * @param {String[]} args 
      */
   run: async (client, message, args) => {
-
-    let user = message.mentions.members.first()
-
-    if(!user) return message.lineReply("please mention people to use this command")
-
-    if(user.user.bot) return message.lineReply("you can't play with bots")
-
+    let player = message.mentions.users.first() || message.guild.members.cache.find((m) => m.user.username.toLowerCase() ===  args.join(" ").toLocaleLowerCase())?.user || message.guild.members.cache.get(args[0])?.user
+        if(!player) return message.reply({allowedMentions: {repliedUser: true}, embeds: [new MessageEmbed().setDescription("`please mention member to use this command!`").setColor(ee.color)]})
+        if(player.bot) return message.reply({allowedMentions: {repliedUser: true}, embeds: [new MessageEmbed().setDescription("`you can't play with bots`").setColor(ee.color)]})
+        if(player === message.author) return message.reply({allowedMentions: {repliedUser: true}, embeds: [new MessageEmbed().setColor(ee.color).setDescription(`\`you can't play with yourself\``)]})
     await Fight({
         message: message,
-        opponent: user,
+        opponent: player,
         embed: {
             title: 'Fight ',
             color: '#F037A5',

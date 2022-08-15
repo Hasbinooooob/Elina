@@ -1,5 +1,7 @@
 const { Client, Message, MessageEmbed, Collection } = require('discord.js');
-
+const ee = require("../../config/embed.json");
+const config = require("../../config/config.json")
+const { EightBall } = require("discord-gamecord")
 module.exports = {
   name: "8ball",
   aliases: [],
@@ -12,13 +14,20 @@ module.exports = {
      * @param {String[]} args 
      */
   run: async (client, message, args) => {
-    
-    const Responses = ["Yes", "No", "Maybe", "Probably", "Not Sure", "Definitely", "Certainly"]
-    const random = Responses[Math.floor(Math.random () * Responses.length)];
-    const Question = args.join(" ");
-
-    if (!Question) return message.reply({content: "Please Give Your Question", allowedMentions: {repliedUser: true}});
-
-    return message.reply({content: `${random}`})
+    const text = args.join(" ")
+    if (!text) return message.reply({allowedMentions: false, embeds: [new MessageEmbed().setTitle("Please give the quetion").setColor(ee.color)]}).then((msg) => {
+        setTimeout(() => {
+            msg.delete()
+        }, 5000);
+    })
+    new EightBall({
+      message: message,
+      question: text,
+      slash_command: false,
+      embed: {
+        title: '🎱 8Ball',
+        color: ee.color
+      }
+    }).startGame();
   }
 };

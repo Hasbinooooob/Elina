@@ -25,12 +25,12 @@ const statuses = {
 }
 module.exports = {
     name: 'userinfo',
-    aliases: ["whois"],
+    aliases: ["whois", "ui"],
     category: 'Info',
     memberpermissions: [],
     cooldown: 5,
     description: 'Show Information Of User',
-    usage: '[command] [@USER] ',
+    usage: '[command] [USER] ',
     /** 
      * @param {Client} client 
      * @param {Message} message 
@@ -38,10 +38,8 @@ module.exports = {
      */
     run: async (client, message, args, prefix) => {
         try {
-        
             var user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(m => m.user.username.toLowerCase() == args.join(" ").toLocaleLowerCase())?.user || message.author;
             if (!user) return message.reply("User Not Found");
-
             const member = message.guild.members.cache.get(user.id);
             const roles = member.roles;
             const userFlags = member.user.flags.toArray();
@@ -52,7 +50,6 @@ module.exports = {
                 },
                 state : "Not having an activity"
               };
-              
             const permissions = member.permissions.toArray().map(perm => {
                 return perm
                   .toLowerCase()
@@ -62,33 +59,28 @@ module.exports = {
                     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
                   });
               });
-
               function trimArray(arr, maxLen = 25) {
                 if ([...arr.values()].length > maxLen) {
                   const len = [...arr.values()].length - maxLen;
                   arr = [...arr.values()].sort((a, b) => b?.rawPosition - a.rawPosition).slice(0, maxLen);
                   arr.map(role => `<@&${role.id}>`)
-                  arr.push(`${len} more...`);
+                  arr.push(`${len} \`more...\``);
                 }
-                return arr.join(", ");
+                return arr.join(" ");
               }
-
-
-
-            //create the EMBED
             const embeduserinfo =  new MessageEmbed()
-            embeduserinfo.setColor(ee.color)
-            embeduserinfo.setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 512 }))
-            embeduserinfo.setAuthor({name: "Information about:   " + member.user.username + "#" + member.user.discriminator, iconURL: member.displayAvatarURL({dynamic:true, size: 4096})})
-            embeduserinfo.addField('**❱ Username:**', `<@${member.user.id}>\n\`${member.user.tag}\``, true)
-            embeduserinfo.addField('**❱ ID:**', `\`${member.id}\``, true)
-            embeduserinfo.addField('**❱ Avatar:**', `[\`Link to avatar\`](${member.user.displayAvatarURL({size: 4096, dynamic: true})})`, true)
-            embeduserinfo.addField('**❱ Registered:**', "\`" + moment(member.user.createdTimestamp).format("DD/MM/YYYY") + "\`\n" + "`" + moment(member.user.createdTimestamp).format("hh:mm:ss") + "\`", true)
-            embeduserinfo.addField('**❱ Date Join Server:**', "\`" + moment(member.joinedTimestamp).format("DD/MM/YYYY") + "\`\n" + "`" + moment(member.joinedTimestamp).format("hh:mm:ss") + "\`", true)
-            embeduserinfo.addField('**❱ Flags:**', `\`${userFlags.length ? userFlags.map(flag => flags[flag]).join(', ') : 'None'}\``, true)
-            embeduserinfo.addField('**❱ Status:**', `\`${statuses[member.presence ? member.presence.status : "offline"]} ${member.presence ? member.presence.status : "offline"}\``,true)
-            embeduserinfo.addField('**❱ Highest Role:**', `${member.roles.highest.id === message.guild.id ? 'None' : member.roles.highest}`, true)
-            embeduserinfo.addField('**❱ Is a Bot:**', `\`${member.user.bot ? "✔️" : "❌"}\``, true)
+            .setColor(ee.color)
+            .setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 512 }))
+            .setAuthor({name: "Information about:   " + member.user.username + "#" + member.user.discriminator, iconURL: member.displayAvatarURL({dynamic:true, size: 4096})})
+            embeduserinfo.addFields({name: '**❱ Username**', value: `\`${member.user.tag}\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ Nickname**', value: `${member.nickname ? member.nickname : "`none`"}`, inline: true})
+            embeduserinfo.addFields({name: '**❱ ID**', value: `\`${member.id}\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ Created at**', value: "\`" + moment(member.user.createdTimestamp).format("DD/MM/YYYY") + "\`\n" + "`" + moment(member.user.createdTimestamp).format("hh:mm:ss") + "\`",inline: true})
+            embeduserinfo.addFields({name: '**❱ Joined Server**', value: "\`" + moment(member.joinedTimestamp).format("DD/MM/YYYY") + "\`\n" + "`" + moment(member.joinedTimestamp).format("hh:mm:ss") + "\`", inline: true})
+            embeduserinfo.addFields({name: '**❱ Badge**', value: `\`${userFlags.length ? userFlags.map(flag => flags[flag]).join(', ') : 'None'}\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ Status**', value: `\`${statuses[member.presence ? member.presence.status : "offline"]} ${member.presence ? member.presence.status : "offline"}\``,inline: true})
+            embeduserinfo.addFields({name: '**❱ Highest Role:**', value: `${member.roles.highest.id === message.guild.id ? 'None' : member.roles.highest}`, inline: true})
+            embeduserinfo.addFields({name: '**❱ Is a Bot**', value: `\`${member.user.bot ? "✔️" : "❌"}\``, inline: true})
             var userstatus = "Not having an activity";
             if(activity){
                 if(activity.type === "CUSTOM"){
@@ -99,15 +91,18 @@ module.exports = {
                   userstatus = `\`${activity.type.toLowerCase().charAt(0).toUpperCase() + activity.type.toLowerCase().slice(1)} ${activity.name}\``
                 }
               }
-            embeduserinfo.addField('**❱ Activity:**', `${userstatus}`)
-            embeduserinfo.addField('**❱ Permissions:**', `\`${permissions}\``)
-            embeduserinfo.addField(`❱ [${roles.cache.size}] Roles: `, roles.cache.size < 25 ? [...roles.cache.values()].sort((a, b) => b?.rawPosition - a.rawPosition).map(role => `<@&${role.id}>`).join(', ') : roles.cache.size > 25 ? trimArray(roles.cache) : "None")
+            embeduserinfo.addFields({name: '**❱ Activity:**', value: `${userstatus}`})
+            embeduserinfo.addFields({name: '**❱ Permissions:**', value: `\`${permissions}\``})
+            embeduserinfo.addFields({name: `❱ [${roles.cache.size}] Roles`,value: `${roles.cache.size < 25 ? [...roles.cache.values()].sort((a, b) => b?.rawPosition - a.rawPosition).map(role => `<@&${role.id}>`).join(' ') : roles.cache.size > 25 ? trimArray(roles.cache) : "None"}`})
             embeduserinfo.setFooter({text: `request by: ${message.author.tag}`, iconURL: message.author.displayAvatarURL()})
-            if(!member.user.banner) {
-              message.reply({embeds: [embeduserinfo]})
+            let fetchUser = await client.users.fetch(member.id);
+          await fetchUser.fetch();
+          if(fetchUser.bannerURL() !== null) {
+            embeduserinfo.setImage(fetchUser.bannerURL({ dynamic: true, size: 4096}))
+            message.reply({ embeds: [embeduserinfo] });
             }
-            if(member.user.banner) {
-              embeduserinfo.setImage(member.user.fetch(true).then(async user => user.bannerURL({dynamic: true, size: 4096})))
+            if(fetchUser.bannerURL() == null){
+              message.reply({ embeds: [embeduserinfo] });
             }
         } catch (e) {
             console.log(e.stack)
@@ -115,6 +110,5 @@ module.exports = {
                 .setColor(ee.color)
                 .setDescription(`${e.message}`)]})
         }
-      
     }
 }

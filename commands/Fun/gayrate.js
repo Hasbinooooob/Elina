@@ -12,12 +12,9 @@ module.exports = {
      * @param {String[]} args 
      */
   run: async (client, message, args) => {
-
     let member = message.mentions.users.first() || message.guild.members.cache.get(args[0])?.user || message.author
-
     let gen = Math.floor(Math.random()*100 + 1);
-
-    message.reply(`${member.tag} it is ${gen}% gay!  :gay_pride_flag:`)
+    message.reply(`${member.tag} it is ${gen}% gay! :gay_pride_flag:`)
     
   }
 };

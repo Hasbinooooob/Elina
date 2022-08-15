@@ -1,8 +1,5 @@
 const { Client, Message, MessageEmbed, Collection } = require('discord.js');
-
 const esnipe = require("../../events/esnipe")
-
-
 module.exports = {
     name: 'editsnipe',
     aliases: ["esnipe"],
@@ -18,11 +15,8 @@ module.exports = {
      */
     run: async (client, message, args, prefix) => {
         try {
-
             let snipe = esnipe.get(message.channel.id)
             if(!snipe) return message.reply("There is nothing to snipe!")
-
-
             let embed = new MessageEmbed()
             .setAuthor(`message by ${snipe.author.tag}`, snipe.author.displayAvatarURL(), snipe.tele)
             .setColor("F037A5")
@@ -30,12 +24,9 @@ module.exports = {
             .addField("old message", snipe.old)
             .addField("new message", snipe.update)
             .setFooter(`requested by ${message.author.tag}`, message.author.displayAvatarURL())
-
             message.reply({embeds: [embed]})
-
-            
-        } catch {
-            console.log("ERROR mau meledak")
+        } catch (e){
+            console.log("bruh")
         }
     }
 }

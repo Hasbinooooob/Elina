@@ -1,8 +1,8 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 const ee = require('../../config/embed.json')
 module.exports = {
-    name: 'google',
-    category: "🔰 Info",
+    name: 'googlesearch',
+    category: "Utility",
     aliases: [],
     description: '',
     usage: '[command] <query>',
@@ -12,9 +12,8 @@ module.exports = {
      * @param {String[]} args 
      */
     run: async (client, message, args) => {
-
-        const sentence = args.join("+")
-       let sntnce = message.content.split(' ');
+    const sentence = args.join("+")
+    let sntnce = message.content.split(' ');
     sntnce.shift();
     sntnce = sntnce.join(' ');
     if (!sentence) return message.reply('**Please specify a search query.**');
@@ -26,9 +25,6 @@ module.exports = {
       .setColor("F037A5")
       .setTimestamp()
       .setFooter("Google command", message.author.avatarURL())
-      
-      
     message.reply({embeds: [embed]});
-
     }
 }

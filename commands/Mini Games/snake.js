@@ -1,11 +1,9 @@
 const { Client, Message, MessageEmbed, Collection } = require('discord.js');
-
 const {Snake} = require("weky")
-
 module.exports = {
   name: "snake",
-  aliases: ["Snake"],
-  category: "Fun",
+  aliases: [],
+  category: "Mini Games",
   description: "Fun command",
   usage: "[Command]",
   /** 
@@ -14,14 +12,13 @@ module.exports = {
      * @param {String[]} args 
      */
   run: async (client, message, args) => {
-
     await Snake({
         message: message,
         embed: {
             title: 'Snake',
             description: 'GG, you scored **{{score}}** points!',
             color: '#F037A5',
-            footer: 'Fun command',
+            footer: 'Mini Games',
             timestamp: true
         },
         emojis: {
@@ -36,7 +33,5 @@ module.exports = {
         othersMessage: 'Only <@{{author}}> can use the buttons!',
         buttonText: 'Cancel'
     });
-
-    
   }
 };

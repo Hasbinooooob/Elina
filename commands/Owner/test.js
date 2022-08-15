@@ -1,44 +1,23 @@
-const { Client, Message, MessageEmbed, MessageAttachment, MessageButton, MessageActionRow } = require('discord.js');
+const { Client, Message, MessageEmbed, MessageAttachment, MessageButton, MessageActionRow, MessageSelectMenu, Util } = require('discord.js');
 const Discord = require("discord.js")
 var ee = require('../../config/embed.json');
 var config = require('../../config/config.json');
 const activities = require("../../config/activities.json")
-
 const distube = require("../../utils/distubeClient")
-
 const {Canvacord} = require("canvacord")
-
 const dick = require("discord-image-generation")
-
-
 const { getSFWImage, getNSFWImage } = require('waifu.pics-wrapper');
-
 const fetch = require("node-fetch");
-
 const lolot = require("nekos.life")
-
-const bruh = require("neko-love")
-
 let akeneko = require("akaneko")
-
-let kon = new bruh.Client()
-
-
 const { sfw, nsfw } = new lolot()
-
-const Meme = require("memer-api");
-const meme = new Meme(config.meme_api)
-
 const AmeClient = require("amethyste-api");
 let AmeAPI = new AmeClient(config.Amethyste);
-const akinator = require("discord.js-akinator");
-
-
-
+const { readdirSync } = require("fs")
 module.exports = {
     name: 'test',
     aliases: [''],
-    category: ' ',
+    category: 'Owner',
     memberpermissions: [],
     cooldown: 5,
     description: '',
@@ -49,24 +28,24 @@ module.exports = {
      * @param {String[]} args 
      */
     run: async (client, message, args, prefix) => {
-
-        let file = new MessageAttachment("https://cdn.discordapp.com/attachments/873897844510162964/941209576420827156/946edb9720377d3b-11_-_2022-02-06T202705.787.mp4", "bruh.mp4")
+        let file = new MessageAttachment("https://cdn.discordapp.com/attachments/882091875589324836/979225471155855370/GTAtitles-1.mp4", "bruh.mp4")
         if(message.author.id !== "779348805920227358") return message.reply({allowedMentions: {repliedUser: true}, files: [file]})
-
         try {
-
-            akinator(message, {
-                language: "id",
-                childMode: false,
-                gameType: "character",
-                embedColor: "F037A5",
-                useButtons: true
-            })
-        
+        const { channel } = message.member.voice
+      if(!channel) return message.reply({allowedMentions: {repliedUser: true}, content: "you must join voice channel"})
+      if(channel.type !== "GUILD_VOICE") return
+     channel.createInvite({
+        maxAge: 86400,
+        maxUses: 0,
+        targetType: 2,
+        targetApplication: "880218394199220334",
+      }).then((invite) => {
+        if(!invite.code) return message.channel.send({content: "I was unable to start a Watch Together session"})
+        message.channel.send({content: `${invite.url}`})
+      })
+          
         } catch (e) {
           console.log(e.stack)
-        }
-
-        
+        } 
 	}        
-    }
+  }

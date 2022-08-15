@@ -16,21 +16,33 @@ module.exports = {
      * @param {String[]} args 
      */
     run: async (client, message, args) => {
-
-        
-
         let guild = message.guild
         let embed = new MessageEmbed()
         .setTitle(`${guild.name} Icon`)
         .setImage(guild.iconURL({dynamic: true, size: 4096}))
-        .addField("❱ PNG", `[\`LINK\`](${guild.iconURL({dynamic: true, size: 4096, format: "png"})})`, true)
-        .addField("❱ JPG", `[\`LINK\`](${guild.iconURL({dynamic: true, size: 4096, format: "jpg"})})`, true)
-        .addField("❱ JPEG", `[\`LINK\`](${guild.iconURL({dynamic: true, size: 4096, format: "jpeg"})})`, true)
-        .addField("❱ WEBP", `[\`LINK\`](${guild.iconURL({dynamic: true, size: 4096, format: "webp"})})`, true)
+        .addFields([
+            {
+                name: "❱ PNG",
+                value: `[\`LINK\`](${guild.iconURL({ format: "png", size: 4096 })})`,
+                inline: true
+            },
+            {
+                name: "❱ JPG",
+                value: `[\`LINK\`](${guild.iconURL({ format: "jpg", size: 4096 })})`,
+                inline: true
+            },
+            {
+                name: "❱ JPEG",
+                value: `[\`LINK\`](${guild.iconURL({ format: "jpg", size: 4096 })})`,
+                inline: true
+            },
+            {
+                name: "❱ WEBP",
+                value: `[\`LINK\`](${guild.iconURL({ format: "webp", size: 4096 })})`,
+                inline: true
+            }
+        ])
         .setColor(ee.color)
-
-
-        message.reply({embeds: [embed]})
-            
+        message.reply({embeds: [embed]}) 
     }
 }

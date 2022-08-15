@@ -1,8 +1,5 @@
 const { Client, Message, MessageEmbed, Collection } = require('discord.js');
-
-const snipes = require("../../events/snipe")
-
-
+const config = require("../../config/config.json")
 module.exports = {
     name: 'reportBug',
     aliases: [],
@@ -19,7 +16,7 @@ module.exports = {
     run: async (client, message, args, prefix) => {
         let bug = args.join(" ")
         if(!bug) return message.lineReply("give me the bug you found now")
-        let channel = client.channels.cache.get("938358024605675520")
+        let owner = client.users.cache.get(config.ownerID)
         let Embed = new MessageEmbed()
         .setTitle("new bug")
         .addField("server", message.guild.name)
@@ -27,6 +24,6 @@ module.exports = {
         .addField("bug", `${bug}`)
         .setThumbnail(message.guild.iconURL())
         .setTimestamp()
-        channel.send({content: "<@779348805920227358>" , embeds: [Embed]})
+        owner.send({embeds: [Embed]})
     }
 }

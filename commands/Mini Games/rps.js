@@ -1,11 +1,10 @@
 const { Client, Message, MessageEmbed, Collection } = require('discord.js');
-
-const {RockPaperScissors} = require("weky")
-
+const ee = require("../../config/embed.json");
+const { RockPaperScissors } = require("weky")
 module.exports = {
-  name: "rps",
-  aliases: [],
-  category: "Fun",
+  name: "rockpaperscissors",
+  aliases: ["rps"],
+  category: "Mini Games",
   description: "Return A Answer Of Question!",
   usage: "[Command]",
   /** 
@@ -14,19 +13,18 @@ module.exports = {
      * @param {String[]} args 
      */
   run: async (client, message, args) => {
-
-    let user = message.mentions.members.first()
-        if(!user) return message.lineReply("please mention member")
-        if(user.user.bot) return message.lineReply("you can't play with bots")
-
+    let player = message.mentions.users.first() || message.guild.members.cache.find((m) => m.user.username.toLowerCase() ===  args.join(" ").toLocaleLowerCase())?.user || message.guild.members.cache.get(args[0])?.user
+        if(!player) return message.reply({allowedMentions: {repliedUser: true}, embeds: [new MessageEmbed().setDescription("`please mention member to use this command!`").setColor(ee.color)]})
+        if(player.bot) return message.reply({allowedMentions: {repliedUser: true}, embeds: [new MessageEmbed().setDescription("`you can't play with bots`").setColor(ee.color)]})
+        if(player === message.author) return message.reply({allowedMentions: {repliedUser: true}, embeds: [new MessageEmbed().setColor(ee.color).setDescription(`\`you can't play with yourself\``)]})
         await RockPaperScissors({
             message: message,
-            opponent: user,
+            opponent: player,
             embed: {
                 title: 'Rock Paper Scissors',
                 description: 'Press the button below to choose your element.',
                 color: '#F037A5',
-                footer: 'minigames',
+                footer: 'Mini Games',
                 timestamp: true
             },
             buttons: {
@@ -51,6 +49,5 @@ module.exports = {
             othersMessage: 'Only {{author}} can use the buttons!',
             returnWinner: false
         });
-
   }
 };

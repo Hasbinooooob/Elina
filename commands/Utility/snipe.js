@@ -1,13 +1,11 @@
 const { Client, Message, MessageEmbed, Collection } = require('discord.js');
-
 const snipes = require("../../events/snipe")
-
-
+const ee = require('../../config/embed.json')
 module.exports = {
     name: 'snipe',
     aliases: [],
-    category: '🛑 Others',
-    memberpermissions: [],
+    category: 'Utility',
+    memberpermissions: ["MANAGE_MESSAGES"],
     cooldown: 5,
     description: 'snipe command',
     usage: 'snipe',
@@ -18,17 +16,20 @@ module.exports = {
      */
     run: async (client, message, args, prefix) => {
         try {
-            const sniped = snipes.get(message.channel.id)
-        if(!sniped) return message.lineReply("no message deleted")
-
+        const sniped = snipes.get(message.channel.id)
+        if(!sniped) return message.reply({embeds: [new MessageEmbed().setColor(ee.color).setDescription('`no message deleted`')]})
         let embed = new MessageEmbed()
-        .setAuthor(`message by: ${sniped.author.tag}`, sniped.author.displayAvatarURL())
-        .addField("message", `${sniped.content}`)
-        .addField("FILE", `[LINK](${sniped.Link})`)
+        .setAuthor({name: `message by: ${sniped.author.tag}`, iconURL: sniped.author.displayAvatarURL()})
+        .addFields({name: "message", value: `${sniped.content}`})
         .setTimestamp()
         .setColor("F037A5")
-        .setFooter(`request by: ${message.author.tag}`, message.author.displayAvatarURL())
+        .setFooter({text: `request by: ${message.author.tag}`, iconURL: message.author.displayAvatarURL()})
 
+        embed.addFields(
+            {
+                name: "FILE", value: sniped.Link ? sniped.Link: "none"
+            }
+        )
         message.reply({embeds: [embed]})
         } catch (e){
             console.log(e.stack)

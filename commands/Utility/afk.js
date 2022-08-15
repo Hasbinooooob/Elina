@@ -2,7 +2,6 @@ const { Client, Message, MessageEmbed } = require('discord.js');
 var ee = require('../../config/embed.json');
 var config = require('../../config/config.json');
 const afkSchema = require(`../../utils/models/afk`)
-
 module.exports = {
     name: 'afk',
     aliases: [],

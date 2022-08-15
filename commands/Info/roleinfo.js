@@ -2,8 +2,6 @@ const { Client, Message, MessageEmbed } = require('discord.js');
 var ee = require('../../config/embed.json');
 var config = require('../../config/config.json');
 const moment = require('moment');
-
-
 module.exports = {
     name: 'roleinfo',
     aliases: [],
@@ -25,9 +23,7 @@ module.exports = {
                 .setColor(ee.color)
                     .setDescription(`Role Not Found`)
             )
-
             const role = message.guild.roles.cache.get(roles.id)
-
             let permissions = role.permissions.toArray().map(perm => {
                 return perm
                   .toLowerCase()
@@ -37,22 +33,19 @@ module.exports = {
                     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
                   });
               });
-
-            
-
             //create the EMBED
             const embeduserinfo =  new MessageEmbed()
- .setColor("F037A5")
+            embeduserinfo.setColor(ee.color)
             embeduserinfo.setThumbnail(message.guild.iconURL({ dynamic: true, size: 512 }))
-            embeduserinfo.addField('**❱ Name:**', `\`${role.name}\``, true)
-            embeduserinfo.addField('**❱ ID:**', `\`${role.id}\``, true)
-            embeduserinfo.addField('**❱ Hex Color:**', `\`${role.hexColor}\``, true)
-            embeduserinfo.addField('**❱ Date Created:**', "\`" + moment(role.createdAt).format("DD/MM/YYYY") + "\`\n" + "`" + moment(role.createdAt).format("hh:mm:ss") + "\`", true)
-            embeduserinfo.addField('**❱ Position:**', `\`${role.rawPosition}\``, true)
-            embeduserinfo.addField('**❱ MemberCount:**', `\`${role.members.size} Members have it\``, true)
-            embeduserinfo.addField('**❱ Hoisted:**', `\`${role.hoist ? "✔️" : "❌"}\``, true)
-            embeduserinfo.addField('**❱ Mentionable:**', `\`${role.mentionable ? "✔️" : "❌"}\``, true)
-            embeduserinfo.addField('**❱ Permissions:**', `\`${permissions}\``)
+            embeduserinfo.addFields({name: '**❱ Name:**', value: `\`${role.name}\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ ID:**', value: `\`${role.id}\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ Hex Color:**', value: `\`${role.hexColor}\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ Date Created:**', value: "\`" + moment(role.createdAt).format("DD/MM/YYYY") + "\`\n" + "`" + moment(role.createdAt).format("hh:mm:ss") + "\`", inline: true})
+            embeduserinfo.addFields({name: '**❱ Position:**', value: `\`${role.rawPosition}\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ MemberCount:**', value: `\`${role.members.size} Members have it\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ Hoisted:**', value: `\`${role.hoist ? "✔️" : "❌"}\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ Mentionable:**', value: `\`${role.mentionable ? "✔️" : "❌"}\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ Permissions:**', value: `\`${permissions}\``})
             embeduserinfo.setFooter({text:`requested by ${message.author.tag}`, iconURL: message.author.displayAvatarURL()})
             //send the EMBED
             message.reply({embeds: [embeduserinfo]})
@@ -62,7 +55,6 @@ module.exports = {
                 .setColor(ee.color)
                     .setDescription(e)
             )
-
         }
     }
 }

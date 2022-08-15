@@ -1,14 +1,12 @@
 const Discord = require("discord.js")
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Client, Message, MessageEmbed, MessageActionRow, MessageAttachment, MessageButton, MessageSelectMenu, Modal, MessageCollector, TextInputComponent } = require('discord.js');
 const { Canvacord } = require("canvacord")
 var ee = require('../../config/embed.json');
 var config = require('../../config/config.json');
-
-
 module.exports = {
     name: 'eval',
     aliases: [''],
-    category: ' ',
+    category: 'Owner',
     memberpermissions: [],
     cooldown: 5,
     description: '',
@@ -25,7 +23,7 @@ module.exports = {
             if (!result) {
              return message.reply({allowedMentions: false, content: "Please input code to evaluate!"});
             }
-            let evaluated = eval(result);
+            let evaluated = await eval(result);
             const success = new MessageEmbed() // Prettier()
              .setColor("F037A5")
              .addField(`Input:\n`, "```js\n" + `${result}` + "```", false)
@@ -39,11 +37,6 @@ module.exports = {
             .addField(`Output:\n`, "```js\n" + `${err.message}` + "```", true)
             message.channel.send({embeds: [errormessage]});
             return console.log(err.stack)
-
-            
-            
-           }
-
-        
+           } 
     }
 }

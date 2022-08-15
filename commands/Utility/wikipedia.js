@@ -1,10 +1,5 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
-
 let fetch = require("node-fetch")
-
-
-
-
 module.exports = {
     name: 'wikipedia',
     aliases: ["wiki"],
@@ -19,11 +14,9 @@ module.exports = {
      * @param {String[]} args 
      */
     run: async (client, message, args, prefix) => {
-
         const wiki = args.slice().join(' ')
         if(!wiki) return message.reply({allowedMentions: {repliedUser: true}, content: "Please Provide A Query To Search"}) // If Nothing Is Searched
         const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(wiki)}` // From Here BOT Will Search For It
-
         let response
         try {
             response = await fetch(url).then(res => res.json())
@@ -32,7 +25,6 @@ module.exports = {
             console.log(e.stack)
             return message.reply({allowedMentions: {repliedUser: true}, content: "An Error Occured, Try Again"})
         }
-
         try {
             if(response.type === 'disambiguation') { // If Their Are Many Results With Same Seached Topic
                 const embed = new MessageEmbed()
@@ -57,6 +49,5 @@ module.exports = {
         catch (e) {
             console.log(e.stack)// If Searched Query Is Not Available
         }
-        
     }
 }

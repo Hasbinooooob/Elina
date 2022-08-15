@@ -1,12 +1,46 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
-
-
+const ee = require("../../config/embed.json")
   let passwords = [
-    "1234",
+    "111111",
+    "123123",
+    "12345",
+    "123456",
+    "1234567",
+    "12345678",
+    "123456789",
+    "1234567890",
+    "111111",
+    "222222",
+    "55555",
+    "666666",
+    "1q2w3e,",
+    "1qaz2wsx",
+    "aaaaaa",
     "abcd",
-    "noob",
+    "abcdef",
+    "abc123",
+    "aa123456",
+    "admin123",
+    "arsenal",
+    "bismillah",
+    "computer",
+    "cookie",
+    "iloveyou",
+    "liverpool",
+    "monkey",
     "password",
-    "YNTKTS"
+    "password1",
+    "passw0rd",
+    "pussy,",
+    "princess",
+    "qwerty123.",
+    "sunshine",
+    "superman",
+    "whatever",
+    "welcome",
+    "YNTKTS",
+    "zxcvbnmm",
+    "zaq1zaq1"
   ];
   let ips = [
     "10.313.523.502.00.1",
@@ -19,15 +53,13 @@ const { Client, Message, MessageEmbed } = require('discord.js');
     "84.091.000.853.54.7",
     "51.071.124.129.12.0",
   ];
-
-
 module.exports = {
     name: 'hack',
     aliases: [],
     category: 'Fun',
     memberpermissions: [],
     cooldown: 5,
-    description: 'Fun command',
+    description: 'Hack user',
     usage: '',
     /** 
      * @param {Client} client 
@@ -35,15 +67,9 @@ module.exports = {
      * @param {String[]} args 
      */
     run: async (client, message, args, prefix) => {
-
-
-
-        let taggedUser = message.mentions.users.first() || message.guild.members.cache.get(args[0])?.user 
-
+        let taggedUser = message.mentions.members.first() || message.guild.members.cache.get(args[0])
         if (!taggedUser) return message.channel.send("Tag the person who you want to hack!");
-            
-        const answer = `${taggedUser.username}@gmail.com`
-
+        const answer = `${taggedUser.nickname ? taggedUser.nickname: taggedUser.user.username}@gmail.com`
         const passwrd = passwords[Math.floor(Math.random() * passwords.length)];
         const ip = ips[Math.floor(Math.random() * ips.length)];
         function wait(ms) {
@@ -53,14 +79,13 @@ module.exports = {
               end = new Date().getTime();
             }
           }
-
-          message.channel.send(`Hacking  ${taggedUser.tag}...`);
+          message.channel.send(`Hacking  \`${taggedUser.user.tag}\`...`);
           message.channel.send("Status: ■□□□□□□□□□□ 0%").then((msg) => {
             wait(200);
             msg.edit("Status: ■■□□□□□□□□□ 7%: Hacking Email...");
             wait(600);
             msg.edit(
-              `Status: ■■■□□□□□□□□ 8%:\n \`Email: ${taggedUser.username}@yousuck.noob\`\n \`Password: ${passwrd}\` `
+              `Status: ■■■□□□□□□□□ 8%:\n \`Email: ${taggedUser.nickname ? taggedUser.nickname: taggedUser.user.username}@yousuck.noob\`\n \`Password: ${passwrd}\` `
             );
             wait(600);
             msg.edit("Status: ■■□□□□□□□□□ 9%: Logging in to the Email...");
@@ -92,7 +117,7 @@ module.exports = {
             msg.edit("Status: ■■■■■■□□□□□ 53%");
             wait(3000);
             msg.edit(
-              `Status: ■■■■■■■□□□□ 58%: Email password changed so ${taggedUser.username} can not login`
+              `Status: ■■■■■■■□□□□ 58%: Email password changed so ${taggedUser.nickname ? taggedUser.nickname: taggedUser.user.username} can not login`
             );
             wait(500);
             msg.edit("Status: ■■■■■■□□□□□ 66%");
@@ -109,18 +134,18 @@ module.exports = {
             wait(70);
             msg.edit("Status: ■■■■■■■■■■□ 97%");
             wait(90);
-            msg.edit("Status: ■■■■■■■■■■■ 100%").then(() => {
+            msg.edit("Status: ■■■■■■■■■■■ 100%").then((m) => {
               const embed = new MessageEmbed()
-                .setTitle("Hacking success!")
-                .setThumbnail(taggedUser.displayAvatarURL())
-                .setDescription(`${taggedUser.tag} has been hacked!`)
-                .addField("INFO", "Information about the user that you hacked.")
-                .addField("EMAIL", `${answer}`)
-                .addField("PASSWORD", `${passwrd}`)
-                .addField("IP address", `${ip}`)
-                .setFooter("It is for fun!")
-                .setColor('#F037A5');
-                message.delete();
+                .setTitle("Hacking success!😱")
+                .setThumbnail(taggedUser.displayAvatarURL({dynamic: true}))
+                .setDescription(`\`${taggedUser.user.tag}\` has been hacked!`)
+                .addField("INFO", "\`Information about the user that you hacked.\`")
+                .addField("EMAIL", `\`${answer}\``)
+                .addField("PASSWORD", `\`${passwrd}\``)
+                .addField("IP address", `\`${ip}\``)
+                .setFooter({text: "It is for fun!"})
+                .setColor(ee.color);
+                m.delete();
               message.reply({embeds: [embed]});
             });
           });

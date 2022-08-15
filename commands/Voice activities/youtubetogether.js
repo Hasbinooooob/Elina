@@ -3,8 +3,6 @@ const config = require("../../config/config.json");
 const ee = require("../../config/embed.json")
 const activities = require("../../config/activities.json")
 const fetch = require('node-fetch')
-
-
 module.exports = {
   name: 'watchtogether',
   category: "Voice activities",
@@ -19,16 +17,12 @@ module.exports = {
    * @param {String[]} args 
    */
   run: async (client, message, args) => {
-
     try {
-
         const channel = message.member.voice.channel || message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find((ch) => ch.name.toLowerCase() == args.join(" ").toLocaleLowerCase())
-
         if (!channel) return message.reply({allowedMentions: false ,embeds: [new MessageEmbed()
             .setDescription("You must be connected to a voice channel to use this command.")
             .setColor("#ff0000")]})
         if(channel.type !== "GUILD_VOICE") return message.reply({allowedMentions: false, embeds: [new MessageEmbed().setColor(ee.color).setDescription("You must be connected to a voice channel to use this command")]})
-
         fetch(`https://discord.com/api/v8/channels/${channel.id}/invites`, {
             method: "POST",
             body: JSON.stringify({
@@ -45,18 +39,15 @@ module.exports = {
             }
         }).then(res => res.json()).then(invite => {
             if (!invite.code) return message.channel.send({embeds: [new MessageEmbed()
-                .setDescription("I was unable to start a Youtube Together session.")
+                .setDescription("I was unable to start a Watch Together session.")
                 .setColor(ee.wrongcolor)]})
-
                 const button = new MessageButton()
                 .setStyle("LINK")
-                .setLabel("Youtube Together")
+                .setLabel("Watch Together")
                 .setURL(`https://discord.gg/${invite.code}`)
                 .setEmoji("939931570645655634")
-
                 let row = new MessageActionRow()
                 .addComponents(button)
-
         const emebd = new MessageEmbed()
         .setDescription(`Click the button below to start a Youtube Together session in ${channel}`)
         .setColor("F037A5")
@@ -65,15 +56,12 @@ module.exports = {
             iconURL: message.author.displayAvatarURL({dynamic: true}),
           })
         .setTimestamp()
-        .setImage("https://cdn.discordapp.com/attachments/944800400412901377/957936156199256134/Watch_together.gif?size=4096");
+        .setImage("https://cdn.discordapp.com/attachments/959030954234621952/959031153963175956/Watch_together.gif?size=4096");
           return message.reply({embeds: [emebd], components: [row]})
         })
-        
     } catch (e) {
         console.log(e.stack)
         message.channel.send({embeds: [new MessageEmbed().setColor(ee.wrongcolor).setDescription(`\`${e.message}\``)]})
     }
-
-    
   }
 }

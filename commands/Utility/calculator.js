@@ -1,13 +1,9 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 var ee = require('../../config/embed.json');
-
-
-const {Calculator} = require("weky")
-
-
+const { Calculator } = require("weky")
 module.exports = {
     name: 'calculator',
-    aliases: ['cal'],
+    aliases: ['calc'],
     category: 'Utility',
     memberpermissions: ["SEND_MESSAGES"],
     cooldown: '',
@@ -31,6 +27,5 @@ module.exports = {
 			invalidQuery: 'The provided equation is invalid!',
 			othersMessage: 'Only <@{{author}}> can use the buttons!',
 		});
-        
     }
 }
