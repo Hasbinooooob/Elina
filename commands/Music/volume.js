@@ -2,11 +2,10 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
 const distube = require("../../utils/distubeClient");
-
 module.exports = {
   name: "volume",
   aliases: [],
-  category: "🎶 Music",
+  category: "Music",
   memberpermissions: [],
   description: "Manage Volume Of Playing Song",
   usage: "",
@@ -17,20 +16,14 @@ module.exports = {
    */
   run: async (client, message, args) => {
     const { channel } = message.member.voice;
-
-    //if member not connected return error
     if (!channel)
       return message.reply({embeds: [new MessageEmbed()
         .setColor(ee.color).setDescription(`Please Join Voice Channel to change volume`)]})
         .then((msg) => {
-
           setTimeout(() => {
           msg.delete()
         }, 5000);
-
         });
-
-    //If Bot not connected, return error
     if (!message.guild.me.voice.channel)
       return message.reply({embeds: [new MessageEmbed()
         .setColor(ee.color).setDescription(`Nothing Playing In Voice Channel`)]}).then((msg) => {
@@ -38,8 +31,6 @@ module.exports = {
             msg.delete()
           }, 5000);
         });
-
-    //if they are not in the same channel, return error only check if connected
     if (
       message.guild.me.voice.channel &&
       channel.id != message.guild.me.voice.channel.id
@@ -67,16 +58,13 @@ module.exports = {
           msg.delete()
         }, 5000);
       })
-
       let queue = distube.getQueue(message.guildId)
       if(!queue) return message.reply({allowedMentions: false, embeds: [new MessageEmbed().setColor(ee.color).setDescription("Nothing to Play")]}).then((msg) => {
         setTimeout(() => {
           msg.delete()
         }, 5000);
       })
-
       queue.setVolume(args[0])
-
     message.reply({embeds: [new MessageEmbed()
       .setColor(ee.color)
 .setDescription(

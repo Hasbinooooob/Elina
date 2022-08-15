@@ -1,7 +1,6 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
-
-const {poll} = require("discord.js-poll")
-
+const { poll } = require("discord.js-qotd")
+const  ee = require("../../config/embed.json")
 module.exports = {
     name: 'poll',
     aliases: [],
@@ -16,6 +15,6 @@ module.exports = {
      * @param {String[]} args 
      */
     run: async (client, message, args, prefix) => {
-        poll(message, args, "+", "#F037A5")
+        poll(message, args, "+", ee.color, "<:Elina_vote:967653784606097410>")
     }
 }

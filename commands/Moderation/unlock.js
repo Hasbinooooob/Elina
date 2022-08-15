@@ -2,7 +2,6 @@ const { Client, Message, MessageEmbed } = require('discord.js');
 var ee = require('../../config/embed.json');
 var config = require('../../config/config.json');
 const ms = require('ms')
-
 module.exports = {
     name: 'unlock',
     aliases: [],
@@ -17,8 +16,13 @@ module.exports = {
      * @param {String[]} args 
      */
     run: async (client, message, args, prefix) => {
-      let channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find((ch) => ch.name.toLowerCase() == args.join(" ").toLocaleLowerCase()) || message.channel;
-        
+      let channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find((ch) => ch.name.toLowerCase() == args.join(" ").toLocaleLowerCase()) || message.channel
+        if(channel.permissionOverwrites.cache.filter(permission => permission.deny.toArray().includes("SEND_MESSAGES")).size < 1)
+          return message.reply({embeds :[new MessageEmbed()
+            .setColor(ee.color)
+            .setTitle("`This Channel is not locked!`")
+          ],
+        allowedMentions: {repliedUser: true}});
       await channel.permissionOverwrites.set(
         channel.permissionOverwrites.cache.map(permission => {
           let Obj = {

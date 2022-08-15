@@ -2,14 +2,12 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
 const distube = require("../../utils/distubeClient");
-var { getData, getPreview, getTracks } = require("spotify-url-info");
-
 module.exports = {
   name: "autoplay",
   aliases: [],
   category: "Music",
   memberpermissions: "",
-  description: "",
+  description: "Toggles autoplay",
   usage: "",
   /**
    * @param {Client} client
@@ -18,27 +16,21 @@ module.exports = {
    */
   run: async (client, message, args) => {
     const { channel } = message.member.voice;
-
-    //if member not connected return error
     if (!channel)
       return message.reply({allowedMentions: {repliedUser: true},embeds: [new MessageEmbed()
         .setColor(ee.color)
         .setDescription(`Please Join Voice Channel`)
       ]})
         .then((msg) => {
-
           setTimeout(() => {
-
             msg.delete()
           }, 5000);
         });
-
-    //if they are not in the same channel, return error only check if connected
     if (
       message.guild.me.voice.channel &&
       channel.id != message.guild.me.voice.channel.id
     )
-      return message.reply({ allowedMentions: false,embeds: [new MessageEmbed()
+     return message.reply({ allowedMentions: false,embeds: [new MessageEmbed()
         .setColor(ee.color)
         .setDescription(`Please Join My Voice Channel ${message.guild.me.voice.channel}`)]})
         .then((msg) => {
@@ -46,9 +38,6 @@ module.exports = {
             msg.delete()
           }, 5000);
         });
-
-
-    // if don't have persm
     if (!message.guild.me.permissionsIn(message.member.voice.channel).has("CONNECT")) return message.reply({embeds: [new MessageEmbed()
       .setColor(ee.color)
       .setDescription(`I am Not Allowed In Voice Channel`)]
@@ -56,14 +45,9 @@ module.exports = {
       setTimeout(() => {
         msg.delete()
       }, 5000);
-
         });
-
-
         let queue = distube.getQueue(message.guild.id)
-
         if(!queue) return message.reply({embeds: [new MessageEmbed().setDescription(`** There is nothing in the queue right now! **`).setColor(ee.color)]})
-
        let autoplay = queue.toggleAutoplay()
         message.reply({
             embeds: [new MessageEmbed()

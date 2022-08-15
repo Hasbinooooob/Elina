@@ -1,8 +1,6 @@
 const { Client, Message, MessageEmbed } = require('discord.js');
 var ee = require('../../config/embed.json');
 var config = require('../../config/config.json');
-const ms = require('ms')
-
 module.exports = {
     name: 'lock',
     aliases: [],
@@ -17,15 +15,11 @@ module.exports = {
      * @param {String[]} args 
      */
     run: async (client, message, args, prefix) => {
-
         let channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]) || message.guild.channels.cache.find((ch) => ch.name.toLowerCase() == args.join(" ").toLocaleLowerCase()) || message.channel;
-
         let reason = args.slice(1).join(" ")
         if(!reason) {
             reason = "no reason"
         }
-
-        
         if(channel.permissionOverwrites.cache.size < 1){
             await channel.permissionOverwrites.set(
               [{
@@ -58,7 +52,6 @@ module.exports = {
             return Obj;
         }))
         }
-
         const embed = new MessageEmbed()
             .setColor(ee.color)
             .setTitle("Channel Updates")

@@ -2,12 +2,10 @@ const { Client, Message, MessageEmbed } = require("discord.js");
 var ee = require("../../config/embed.json");
 var config = require("../../config/config.json");
 const distube = require("../../utils/distubeClient");
-const collector = require("../../handlers/distube");
-
 module.exports = {
   name: "stop",
   aliases: [],
-  category: "🎶 Music",
+  category: "Music",
   memberpermissions: [],
   description: "Stop Playing Song",
   usage: "",
@@ -18,8 +16,6 @@ module.exports = {
    */
   run: async (client, message, args) => {
     const { channel } = message.member.voice;
-
-    //if member not connected return error
     if (!channel)
       return message.reply({embeds: [new MessageEmbed()
         .setColor(ee.color)
@@ -28,8 +24,6 @@ module.exports = {
           msg.delete()
         }, 5000);
     })
-
-    //If Bot not connected, return error
     if (!message.guild.me.voice.channel)
       return message.reply({embeds: [new MessageEmbed()
         .setColor(ee.color)
@@ -39,8 +33,6 @@ module.exports = {
           msg.delete()
         }, 5000);
     })
-
-    //if they are not in the same channel, return error only check if connected
     if (
       message.guild.me.voice.channel &&
       channel.id != message.guild.me.voice.channel.id
@@ -52,17 +44,13 @@ module.exports = {
           msg.delete()
         }, 5000);
     })
-
     let queue = distube.getQueue(message.guild.id)
     if(!queue.songs.length) return message.reply({embeds: [new MessageEmbed().setDescription("** Nothing Playing Right Now **").setColor(ee.wrongcolor)], allowedMentions: {repliedUser: true}}).then((msg) => {
       setTimeout(() => {
         msg.delete()
       }, 8000);
     })
-
     queue.stop()
-
-
     message.reply({embeds: [new MessageEmbed()
       .setColor(ee.color)
       .setDescription(`Song Stopped By <@${message.author.id}>`)
