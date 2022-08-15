@@ -1,11 +1,8 @@
-const { Client, Message, MessageEmbed, Collection } = require("discord.js");
+const { Client, Collection } = require("discord.js");
 const colors = require("colors");
 const fs = require("fs");
-const emojis = require("./config/emojis.json");
+const ee = require("./config/embed.json");
 const config = require("./config/config.json");
-
-
-
 // client define
 const client = new Client({
   messageCacheLifetime: 60,
@@ -23,7 +20,7 @@ const client = new Client({
     parse: ["roles", "users", "everyone"],
     repliedUser: false,
   },
-  intents: 32767,
+  intents: 131071,
   ws: {
     properties: {
       $browser: "Discord iOS"
@@ -31,15 +28,11 @@ const client = new Client({
   }
 });
 module.exports = client;
-
-
 const mongoose = require("mongoose");
 mongoose
   .connect(config.mongo, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
+    useUnifiedTopology: true
   })
   .then(
     console.log(String(
@@ -76,13 +69,7 @@ function requirehandlers() {
 requirehandlers();
 
 client.login(config.token);
-
-
-
-
-
 module.exports.requirehandlers = requirehandlers;
-
 
 process.on("unhandledRejection", (reason, p) => {
   console.log(" [Error_Handling] :: Unhandled Rejection/Catch");
@@ -97,9 +84,11 @@ process.on("uncaughtExceptionMonitor", (err, origin) => {
   console.log(err, origin);
 });
 process.on("multipleResolves", (type, promise, reason) => {
-  console.log(" [Error_Handling] :: Multiple Resolves");
-  console.log(type, promise, reason);
+  //console.log(" [Error_Handling] :: Multiple Resolves");
+  //console.log(type, promise, reason);
 });
+
+
 
 
 

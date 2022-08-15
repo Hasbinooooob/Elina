@@ -1,7 +1,6 @@
-const { Client, Message, MessageEmbed, MessageActionRow, MessageAttachment, MessageButton, MessageSelectMenu } = require("discord.js");
+const { Client, Message, MessageEmbed, MessageActionRow, MessageAttachment, MessageButton, MessageSelectMenu, Permissions, Modal, TextInputComponent} = require("discord.js");
 const ee = require("../../config/embed.json");
 const config = require("../../config/config.json")
-
 module.exports = {
   name: "",
   aliases: [],
@@ -16,6 +15,7 @@ module.exports = {
    */
   run: async (client, message, args) => {
     try {
+      
     } catch (error) {
       console.log(error.stack);
     }
@@ -23,12 +23,9 @@ module.exports = {
 };
 
 //slash
-
-const { Client, CommandInteraction, MessageEmbed, MessageActionRow, MessageAttachment, MessageButton, MessageSelectMenu  } = require("discord.js");
+const { Client, CommandInteraction, MessageEmbed, MessageActionRow, MessageAttachment, MessageButton, MessageSelectMenu, Modal, TextInputComponent } = require("discord.js");
 const ee = require("../../config/embed.json");
 const config = require("../../config/config.json");
-
-
 module.exports = {
   name: "",
   description: "",
@@ -40,7 +37,7 @@ module.exports = {
    * @param {CommandInteraction} interaction
    * @param {String[]} args
    */
-  run: async ({client, interaction, args}) => {
+  run: async (client, interaction, args) => {
     try {
     } catch (error) {
       console.log(error.stack);
@@ -57,11 +54,9 @@ module.exports = {
 }
 
 //contexMenu Message
-
 const { Client, ContextMenuInteraction, MessageEmbed, MessageActionRow, MessageAttachment, MessageButton, MessageSelectMenu } = require("discord.js");
 const ee = require("../../config/embed.json");
 const config = require("../../config/config.json");
-
 module.exports = {
   name: "",
   type: 3,
@@ -88,7 +83,6 @@ module.exports = {
 };
 
 //contexMenu Message
-
 const { Client, ContextMenuInteraction, MessageEmbed, MessageActionRow, MessageAttachment, MessageButton, MessageSelectMenu } = require("discord.js");
 const ee = require("../../config/embed.json");
 const config = require("../../config/config.json");
