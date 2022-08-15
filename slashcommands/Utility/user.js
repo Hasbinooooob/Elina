@@ -1,8 +1,8 @@
 const { Client, CommandInteraction, MessageEmbed, MessageActionRow, MessageAttachment, MessageButton, MessageSelectMenu, Activity  } = require("discord.js");
 const ee = require("../../config/embed.json");
 const config = require("../../config/config.json");
+const config_2 = require("../../config/config_2.json")
 const moment = require("moment")
-
 const flags = {
     DISCORD_EMPLOYEE: 'Discord Employee',
     DISCORD_PARTNER: 'Discord Partner',
@@ -24,12 +24,12 @@ const statuses = {
     "dnd": "🔴",
     "offline": "⚫️"
 }
-
 module.exports = {
   name: "user",
   description: "user",
   type: 1,
   memberpermissions: [],
+  defaultPermission: true,
   options: [
       {
           name: "info",
@@ -56,6 +56,32 @@ module.exports = {
                   required: false
               }
           ] 
+      },
+      {
+        name: "permisions",
+        description: "show user permisions",
+        type: "SUB_COMMAND",
+        options: [
+          {
+              name: "user",
+              description: "target to show user permisions",
+              type: "USER",
+              required: false
+          }
+      ] 
+      },
+      {
+        name: "banner",
+        description: "show user banner",
+        type: "SUB_COMMAND",
+        options: [
+          {
+              name: "user",
+              description: "target to show user banner",
+              type: "USER",
+              required: false
+          }
+      ] 
       }
   ],
   /**
@@ -66,7 +92,6 @@ module.exports = {
   run: async (client, interaction, args) => {
     try {
         let sub = interaction.options.getSubcommand()
-
         if(sub === "info") {
             var user = interaction.options.getUser("user") || interaction.user
             const member = interaction.guild.members.cache.get(user.id);
@@ -79,7 +104,6 @@ module.exports = {
                 },
                 state : "Not having an activity"
               };
-              
             const permissions = member.permissions.toArray().map(perm => {
                 return perm
                   .toLowerCase()
@@ -103,15 +127,15 @@ module.exports = {
             embeduserinfo.setColor(ee.color)
             embeduserinfo.setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 512 }))
             embeduserinfo.setAuthor({name: "Information about:   " + member.user.username + "#" + member.user.discriminator, iconURL: member.displayAvatarURL({dynamic:true, size: 4096})})
-            embeduserinfo.addField('**❱ Username:**', `<@${member.user.id}>\n\`${member.user.tag}\``, true)
-            embeduserinfo.addField('**❱ ID:**', `\`${member.id}\``, true)
-            embeduserinfo.addField('**❱ Avatar:**', `[\`Link to avatar\`](${member.user.displayAvatarURL({size: 4096, dynamic: true})})`, true)
-            embeduserinfo.addField('**❱ Registered:**', "\`" + moment(member.user.createdTimestamp).format("DD/MM/YYYY") + "\`\n" + "`" + moment(member.user.createdTimestamp).format("hh:mm:ss") + "\`", true)
-            embeduserinfo.addField('**❱ Date Join Server:**', "\`" + moment(member.joinedTimestamp).format("DD/MM/YYYY") + "\`\n" + "`" + moment(member.joinedTimestamp).format("hh:mm:ss") + "\`", true)
-            embeduserinfo.addField('**❱ Flags:**', `\`${userFlags.length ? userFlags.map(flag => flags[flag]).join(', ') : 'None'}\``, true)
-            embeduserinfo.addField('**❱ Status:**', `\`${statuses[member.presence ? member.presence.status : "offline"]} ${member.presence ? member.presence.status : "offline"}\``,true)
-            embeduserinfo.addField('**❱ Highest Role:**', `${member.roles.highest.id === interaction.guild.id ? 'None' : member.roles.highest}`, true)
-            embeduserinfo.addField('**❱ Is a Bot:**', `\`${member.user.bot ? "✔️" : "❌"}\``, true)
+            embeduserinfo.addFields({name: '**❱ Username**', value: `\`${member.user.tag}\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ Nickname**', value: `${member.nickname ? member.nickname : "`none`"}`, inline: true})
+            embeduserinfo.addFields({name: '**❱ ID**', value: `\`${member.id}\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ Created at**', value: "\`" + moment(member.user.createdTimestamp).format("DD/MM/YYYY") + "\`\n" + "`" + moment(member.user.createdTimestamp).format("hh:mm:ss") + "\`",inline: true})
+            embeduserinfo.addFields({name: '**❱ Joined Server**', value: "\`" + moment(member.joinedTimestamp).format("DD/MM/YYYY") + "\`\n" + "`" + moment(member.joinedTimestamp).format("hh:mm:ss") + "\`", inline: true})
+            embeduserinfo.addFields({name: '**❱ Badge**', value: `\`${userFlags.length ? userFlags.map(flag => flags[flag]).join(', ') : 'None'}\``, inline: true})
+            embeduserinfo.addFields({name: '**❱ Status**', value: `\`${statuses[member.presence ? member.presence.status : "offline"]} ${member.presence ? member.presence.status : "offline"}\``,inline: true})
+            embeduserinfo.addFields({name: '**❱ Highest Role:**', value: `${member.roles.highest.id === interaction.guild.id ? 'None' : member.roles.highest}`, inline: true})
+            embeduserinfo.addFields({name: '**❱ Is a Bot**', value: `\`${member.user.bot ? "✔️" : "❌"}\``, inline: true})
             var userstatus = "Not having an activity";
             if(activity){
                 if(activity.type === "CUSTOM"){
@@ -122,19 +146,20 @@ module.exports = {
                   userstatus = `\`${activity.type.toLowerCase().charAt(0).toUpperCase() + activity.type.toLowerCase().slice(1)} ${activity.name}\``
                 }
               }
-            embeduserinfo.addField('**❱ Activity:**', `${userstatus}`)
-            embeduserinfo.addField('**❱ Permissions:**', `\`${permissions}\``)
-            embeduserinfo.addField(`❱ [${roles.cache.size}] Roles: `, roles.cache.size < 25 ? [...roles.cache.values()].sort((a, b) => b?.rawPosition - a.rawPosition).map(role => `<@&${role.id}>`).join(', ') : roles.cache.size > 25 ? trimArray(roles.cache) : "None")
+            embeduserinfo.addFields({name: '**❱ Activity:**', value: `${userstatus}`})
+            embeduserinfo.addFields({name: '**❱ Permissions:**', value: `\`${permissions}\``})
+            embeduserinfo.addFields({name: `❱ [${roles.cache.size}] Roles`,value: `${roles.cache.size < 25 ? [...roles.cache.values()].sort((a, b) => b?.rawPosition - a.rawPosition).map(role => `<@&${role.id}>`).join(' ') : roles.cache.size > 25 ? trimArray(roles.cache) : "`None`"}`})
             embeduserinfo.setFooter({text: `request by: ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL()})
-            if(!member.user.banner) {
-                interaction.followUp({embeds: [embeduserinfo]})
-            } 
-            if(member.user.banner) {
-            embeduserinfo.setImage(member.user.fetch(true).then(async m => m.bannerURL({dynamic: true, size: 4096})))
-            interaction.followUp({embeds: [embeduserinfo]})
+          let fetchUser = await client.users.fetch(member.id);
+          await fetchUser.fetch();
+          if(fetchUser.bannerURL() !== null) {
+            embeduserinfo.setImage(fetchUser.bannerURL({ dynamic: true, size: 4096}))
+            interaction.followUp({ embeds: [embeduserinfo] });
+            }
+            if(fetchUser.bannerURL() == null){
+              interaction.followUp({ embeds: [embeduserinfo] });
             }
         }
-
         if(sub === "avatar") { 
             let user = interaction.options.getUser("user") || interaction.user;
             let member = interaction.guild.members.cache.get(user.id)
@@ -144,12 +169,64 @@ module.exports = {
             .setColor(ee.color)
             .setTimestamp()
             .setImage(member.displayAvatarURL({dynamic: true, size: 4096}))
-            .addField("❱ PNG", `[\`LINK\`](${member.displayAvatarURL({ format: "png", size: 4096 })})`, true)
-            .addField("❱ JPG", `[\`LINK\`](${member.displayAvatarURL({ format: "jpg", size: 4096 })})`, true)
-            .addField("❱ JPEG", `[\`LINK\`](${member.displayAvatarURL({ format: "jpg", size: 4096 })})`, true)
-            .addField("❱ WEBP", `[\`LINK\`](${member.displayAvatarURL({ format: "webp", size: 4096 })})`, true)
+            .addFields([
+              {
+                  name: "❱ PNG",
+                  value: `[\`LINK\`](${user.displayAvatarURL({ format: "png", size: 4096 })})`,
+                  inline: true
+              },
+              {
+                  name: "❱ JPG",
+                  value: `[\`LINK\`](${user.displayAvatarURL({ format: "jpg", size: 4096 })})`,
+                  inline: true
+              },
+              {
+                  name: "❱ JPEG",
+                  value: `[\`LINK\`](${user.displayAvatarURL({ format: "jpg", size: 4096 })})`,
+                  inline: true
+              },
+              {
+                  name: "❱ WEBP",
+                  value: `[\`LINK\`](${user.displayAvatarURL({ format: "webp", size: 4096 })})`,
+                  inline: true
+              }
+          ])
 
-            interaction.followUp({embeds: [embed]})
+            return interaction.followUp({embeds: [embed]})
+        }
+
+        if(sub === "permisions") {
+          let users = interaction.options.getUser("user") || interaction.user;
+          let members = interaction.guild.members.cache.get(users.id)
+          const permissions = members.permissions.toArray().map(perm => {
+            return perm
+              .toLowerCase()
+              .replace(/_/g, " ") // Replace all underscores with spaces
+              .replace(/\w\S*/g, txt => {
+                // Capitalize the first letter of each word
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+              });
+          });
+          return interaction.followUp({embeds: [new MessageEmbed().setColor(ee.color).addFields({name: "**❱ Member:**", value: `\`${members.user.tag}\``}).addFields({name: '**❱ Permissions:**', value: `\`${permissions}\``}).setThumbnail(members.displayAvatarURL({dynamic: true}))]})
+        }
+        if(sub === "banner"){
+          let users = interaction.options.getUser("user") || interaction.user
+          let fetchUser = await client.users.fetch(users.id);
+          await fetchUser.fetch();
+          if(fetchUser.bannerURL() !== null) {
+            let embed = new MessageEmbed()
+            .setColor(ee.color)
+            .setAuthor({name: `${fetchUser.tag} banner`,iconURL: fetchUser.displayAvatarURL({dynamic: true}), url: fetchUser.bannerURL({dynamic: true, size: 4096})})
+            .setImage(fetchUser.bannerURL({ dynamic: true, size: 4096}))
+            .setFooter({text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({dynamic: true})});
+            interaction.followUp({ embeds: [embed] });
+            }
+            if(fetchUser.bannerURL() == null){
+              let nobanner = new MessageEmbed()
+              .setColor(ee.color)
+              .setDescription(`\`${fetchUser.tag} doesn't have a banner\``)
+              return interaction.followUp({ embeds: [nobanner] });
+            }
         }
     } catch (error) {
       console.log(error.stack);

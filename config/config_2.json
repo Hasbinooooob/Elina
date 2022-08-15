@@ -1,0 +1,169 @@
+{
+    "bot": {
+        "token": "",
+        "prefix": "",
+        "ownerID": "",
+        "Mongo_Url": ""
+    },
+    "embed": {
+        "maincolor": "#F037A5",
+        "wrongcolor": "",
+        "Botbanner": "",
+        "Arrow": "❱"
+    },
+    "emoji": {
+        "music": {
+    "playing": "🎶",
+    "pruning": "💬",
+    "equalizer": "🎚",
+    "cleared": "🗑",
+    "leave_on_empty": "🗣️",
+    "time": "⌛",
+    "premium": "💰",
+    "setup": "⚙️",
+    "dj": "🎧",
+    "bot": "🤖",
+    "search": "🔎",
+    "resume": "▶",
+    "pause": "⏸",
+    "lyrics": "📃",
+    "disk": "📀",
+    "ping": "🏓",
+    "rewind": "⏪",
+    "forward": "⏩",
+    "pause_resume": "⏯️",
+    "stop": "⏹️",
+    "previous_track": "⏮️",
+    "skip_track": "⏭️",
+    "replay_track": "🔃",
+    "reduce_volume": "🔉",
+    "raise_volume": "🔊",
+    "toggle_mute": "🔇",
+    "repeat_mode": "🔄",
+    "autoplay_mode": "♾",
+    "shuffle": "🔀",
+    "show_queue": "📑",
+    "show_current_track": "🩸"
+       }
+    },
+    "api_key": {
+        "memer_api": "rNHOuT7edCJ",
+        "ame_api": "bb03f373caa534fcfcbaeae177a65134f44a6e57ba7a7b098be273867b376d8a677ddae3c23c6ded4fec8288573945e8c3483689deb13f229376ad4b5b60231d",
+        "Amethyste": "36d73cb74451722a36fe5321526fa29649bdc850444fea8269e6f21276ece44925ae934dd478a803886f53420dfe3e3498f7dc3d0380e278a60d2f50cdc92e72",
+        "Ksoft": "AIzaSyAAg3GHxipuyDz7KsCAv434yoFT56TR9LQ"
+    },
+    "activities": {
+    "ask_away": {
+        "id": "976052223358406656",
+        "image": ""
+    },
+    "betrayal": {
+        "id": "773336526917861400",
+        "image": ""
+    },
+    "bobble_league": {
+        "id": "947957217959759964",
+        "image": ""
+    },
+    "checkers": {
+        "id": "832013003968348200",
+        "image": ""
+    },
+    "chess": {
+        "id": "832012774040141894",
+        "image": ""
+    },
+    "fishington": {
+        "id": "814288819477020702",
+        "image": ""
+    },
+    "know_what_i_meme_in_hehe": {
+        "id": "950505761862189096",
+        "image": ""
+    },
+    "land": {
+        "id": "903769130790969345",
+        "image": ""
+    },
+    "letter_league": {
+        "id": "879863686565621790",
+        "image": ""
+    },
+    "ocho": {
+        "id": "832025144389533716",
+        "image": ""
+    },
+    "poker": {
+        "id": "755827207812677713",
+        "image": ""
+    },
+    "putt_party": {
+        "id": "945737671223947305",
+        "image": ""
+    },
+    "sketch_heads": {
+        "id": "902271654783242291",
+        "image": ""
+    },
+    "spellcast": {
+        "id": "852509694341283871",
+        "image": ""
+    },
+    "word_snacks": {
+        "id": "879863976006127627",
+        "image": ""
+    },
+    "youtubeTogether": {
+        "id": "880218394199220334",
+        "image": ""
+    }
+    },
+    "customFilters": {
+        "clear": "dynaudnorm=f=200",
+        "lightbass": "bass=g=8,dynaudnorm=f=200",
+        "heavybass": "bass=g=20,dynaudnorm=f=200",
+        "lowbass": "bass=g=6,dynaudnorm=f=200",
+        "bassboost": "bass=g=20,dynaudnorm=f=200",
+        "custombassboost": "bass=g=1,dynaudnorm=f=200",
+        "customspeed": "atempo=1.0",
+        "purebass": "bass=g=20,dynaudnorm=f=200,asubboost,apulsator=hz=0.08",
+        "8D": "apulsator=hz=0.08",
+        "vaporwave": "aresample=48000,asetrate=48000*0.8",
+        "nightcore": "aresample=48000,asetrate=48000*1.25",
+        "phaser": "aphaser=in_gain=0.4",
+        "tremolo": "tremolo",
+        "vibrato": "vibrato=f=6.5",
+        "reverse": "areverse",
+        "treble": "treble=g=5",
+        "normalizer": "dynaudnorm=f=200",
+        "surrounding": "surround",
+        "pulsator": "apulsator=hz=1",
+        "subboost": "asubboost",
+        "karaoke": "stereotools=mlev=0.03",
+        "flanger": "flanger",
+        "gate": "agate",
+        "haas": "haas",
+        "mcompand": "mcompand",
+        "earrape": "bass=g=50",
+      "bassboost1": "bass=g=1,dynaudnorm=f=200",
+      "bassboost2": "bass=g=2,dynaudnorm=f=200",
+      "bassboost3": "bass=g=3,dynaudnorm=f=200",
+      "bassboost4": "bass=g=4,dynaudnorm=f=200",
+      "bassboost5": "bass=g=5,dynaudnorm=f=200",
+      "bassboost6": "bass=g=6,dynaudnorm=f=200",
+      "bassboost7": "bass=g=7,dynaudnorm=f=200",
+      "bassboost8": "bass=g=8,dynaudnorm=f=200",
+      "bassboost9": "bass=g=9,dynaudnorm=f=200",
+      "bassboost10": "bass=g=10,dynaudnorm=f=200",
+      "bassboost11": "bass=g=11,dynaudnorm=f=200",
+      "bassboost12": "bass=g=12,dynaudnorm=f=200",
+      "bassboost13": "bass=g=13,dynaudnorm=f=200",
+      "bassboost14": "bass=g=17,dynaudnorm=f=200",
+      "bassboost15": "bass=g=15,dynaudnorm=f=200",
+      "bassboost16": "bass=g=16,dynaudnorm=f=200",
+      "bassboost17": "bass=g=17,dynaudnorm=f=200",
+      "bassboost18": "bass=g=18,dynaudnorm=f=200",
+      "bassboost19": "bass=g=19,dynaudnorm=f=200",
+      "bassboost20": "bass=g=20,dynaudnorm=f=200"
+      }
+}

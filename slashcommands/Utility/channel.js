@@ -2,20 +2,25 @@ const { Client, CommandInteraction, MessageEmbed, MessageActionRow, MessageAttac
 const ee = require("../../config/embed.json");
 const config = require("../../config/config.json");
 const moment = require("moment")
-
 let channelTypes = {
+    "DM": "Dm",
+    "GROUP_DM": "Group Dm",
     "GUILD_TEXT": "Text",
     "GUILD_VOICE": "Voice",
-    "GUILD_NEWS": "Announcement",
-    "GUILD_STAGE_VOICE": "Stage Voice"
+    "GUILD_NEWS": "News",
+    "GUILD_NEWS_THREAD": "News Thread",
+    "GUILD_STAGE_VOICE": "Stage Voice",
+    "GUILD_PRIVATE_THREAD": "Private Thread",
+    "GUILD_PUBLIC_THREAD": "Public Thread",
+    "GUILD_STORE": "Store",
+    "GUILD_DIRECTORY": "Directory"
 }
-
-
 module.exports = {
   name: "channel",
   description: "channel",
   type: 1,
   memberpermissions: [],
+  defaultPermission: true,
   options: [
       {
           name: "info",
@@ -26,6 +31,7 @@ module.exports = {
                   name: "channel",
                   description: "Select a channel",
                   type: "CHANNEL",
+                  channelTypes: ["DM", "GROUP_DM", "GUILD_CATEGORY", "GUILD_DIRECTORY", "GUILD_NEWS", "GUILD_NEWS_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_STAGE_VOICE", "GUILD_STORE", "GUILD_TEXT", "GUILD_VOICE"],
                   required: false
               }
           ]
@@ -107,17 +113,51 @@ module.exports = {
         let sub = interaction.options.getSubcommand()
         switch (sub) {
             case "info":
-                let role = interaction.options.getChannel("channel").type === "" || interaction.channel;
+                let role = interaction.options.getChannel("channel") || interaction.channel;
                 const embeduserinfo =  new MessageEmbed()
                     embeduserinfo.setColor(ee.color)
-                    embeduserinfo.addField('**❱ Name:**', `\`${role.name}\``, true)
-                    embeduserinfo.addField('**❱ ID:**', `\`${role.id}\``, true)
-                    embeduserinfo.addField('**❱ Type **', `\`${channelTypes[role.type]}\``, true)
-                    embeduserinfo.addField(`**❱ Topic **`, `\` ${role.topic ? role.topic: "no Topic"} \``, true)
-                    embeduserinfo.addField('**❱ Date Created:**', "\`" + moment(role.createdAt).format("DD/MM/YYYY") + "\`\n" + "`" + moment(role.createdAt).format("hh:mm:ss") + "\`", true)
-                    embeduserinfo.addField('**❱ Position:**', `\`${role.rawPosition}\``, true)
-                    embeduserinfo.addField('**❱ Manageable:**', `\`${role.manageable ? "✔️" : "❌"}\``, true)
-                    embeduserinfo.addField(`**❱ NSMW **`, `\`${role.nsfw ? "✔️" : "❌"}\``, true)
+                    embeduserinfo.addFields([
+                        {
+                            name: "'❱ Name'",
+                            value: `\`${role.name}\``,
+                            inline: true
+                        },
+                        {
+                            name: "❱ ID '",
+                            value: `\`${role.id}\``,
+                            inline: true
+                        },
+                        {
+                            name: "❱ Type",
+                            value: `\`${channelTypes[role.type]}\``,
+                            inline: true
+                        },
+                        {
+                            name: "❱ Description",
+                            value: `\` ${role.topic ? role.topic: "no Description"} \``,
+                            inline: true
+                        },
+                        {
+                            name: "❱ Created at",
+                            value: "\`" + moment(role.createdAt).format("DD/MM/YYYY") + "\`\n" + "`" + moment(role.createdAt).format("hh:mm:ss") + "\`",
+                            inline: true
+                        },
+                        {
+                            name: "❱ Position",
+                            value: `\`${role.rawPosition}\``,
+                            inline: true
+                        },
+                        {
+                            name: "❱ Manageable",
+                            value: `\`${role.manageable ? "✔️" : "❌"}\``,
+                            inline: true
+                        },
+                        {
+                            name: "❱ NSMW",
+                            value: `\`${role.nsfw ? "✔️" : "❌"}\``,
+                            inline: true
+                        }
+                    ])
                     embeduserinfo.setThumbnail(interaction.guild.iconURL({dynamic: true}))
                     embeduserinfo.setFooter({text:`request by: ${interaction.user.tag}` ,iconURL: interaction.user.displayAvatarURL({dynamic: true})})
                     //send the EMBED        
@@ -125,7 +165,6 @@ module.exports = {
             break;
 
             case "create":
-
             if(!interaction.member.permissions.has("MANAGE_CHANNELS")) return interaction.followUp({embeds: [new MessageEmbed().setColor(ee.color).setDescription(`You don't Have \`MANAGE CHANNELS\` To Run Command..`)]})
             let name = interaction.options.getString("name")
             let choices = interaction.options.getString("type")
@@ -133,10 +172,8 @@ module.exports = {
             if(!topic){
                 topic = "No Topic"
             }
-
             switch (choices) {
                 case "ch_category":
-
                 interaction.guild.channels.create(name, {
                     type: "GUILD_CATEGORY",
                     position: interaction.channel.position,
@@ -153,11 +190,8 @@ module.exports = {
                 }).then(async (ch) => {
                     interaction.followUp({embeds: [new MessageEmbed().setDescription(`<#${ch.id}> successfully made \nname: \`${name}\`\ntype: \`Text\``).setColor(ee.color).setFooter({text: `requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({dynamic:true})})]})
                 })
-                    
                     break;
-
                     case "ch_voice":
-
                 interaction.guild.channels.create(name, {
                     type: "GUILD_VOICE",
                     position: interaction.channel.position,
@@ -165,11 +199,8 @@ module.exports = {
                 }).then(async (ch) => {
                     interaction.followUp({embeds: [new MessageEmbed().setDescription(`<#${ch.id}> successfully made \nname: \`${name}\`\ntype: \`Voice\``).setColor(ee.color).setFooter({text: `requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({dynamic:true})})]})
                 })
-                    
                     break;
-
                     case "ch_news":
-
                 interaction.guild.channels.create(name, {
                     type: "GUILD_NEWS",
                     position: interaction.channel.position,
@@ -177,7 +208,6 @@ module.exports = {
                 }).then(async (ch) => {
                     interaction.followUp({embeds: [new MessageEmbed().setDescription(`<#${ch.id}> successfully made \nname: \`${name}\`\ntype: \`News\``).setColor(ee.color).setFooter({text: `requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({dynamic:true})})]})
                 })
-                    
                     break;
 
                     case "ch_stage":
@@ -202,11 +232,9 @@ module.exports = {
             if(!reason) {
                 reason = "no reason"
             }
-
             await channel.delete().then(async (ch) => {
                 interaction.followUp({embeds: [new MessageEmbed().setDescription(`\`${channel.name}\` has been deleted`).setColor(ee.color).setFooter({text: `requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL({dynamic:true})})]})
             })
-
             break;
             default:
                 console.log(interaction.commandName)

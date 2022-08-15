@@ -4,14 +4,15 @@ const ee = require("../../config/embed.json");
 module.exports = {
   name: "ping",
   description: "check ping bot",
+  type: 1,
   memberpermissions: [],
+  defaultPermission: true,
   /**
    * @param {Client} client
    * @param {CommandInteraction} interaction
    * @param {String[]} args
    */
   run: async (client, interaction, args) => {
-
     try {
       interaction.followUp({embeds: [new MessageEmbed().setColor("F037A5").setDescription("🏓 Pinging...")]}).then( msg =>{
         const ping = new MessageEmbed()
